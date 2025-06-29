@@ -2,7 +2,13 @@
 
 ### Version-Specific Changes
 
-The current version is v3.2. See the main README.md file for a description of this version's changes.
+The current version is v3.3. See the main README.md file for a description of this version's changes.
+
+
+### Changes from version v3.1 to v3.2:
+#### Incorporate Gaia DR3 data for HIP stars that lacked it in original merge
+
+The update for v3.2 adds Gaia DR3 data to a subset of stars from HIPPARCOS that did not have a Gaia DR3 ID in the original Gaia-Tycho lookup results. There were 12132 such stars, of which 9646 had a valid Gaia DR3 parallax result according to SIMBAD. These 9646 stars all had their HIP distances updated to Gaia DR3 distances, and in most cases their proper motions and radial velocities updated to Gaia DR3 values as well. The proportion of stars in this release with a Gaia DR3 distance is now 97.5%, up from 97.1% in the previous release, including 1793 naked-eye stars (apparent magnitude 6.5 or brighter) that had only a HIP distance previously.
 
 #### Changes from version v3.0 to v3.1:
 #### Incorporate changes from HYG v4.0 to v4.1
