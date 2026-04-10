@@ -2,7 +2,7 @@
 
 ## About This Repository
 
-This data set (the Augmented Tycho - HYG star catalog) is a combination of data from everal major star catalogs:
+This data set (the Augmented Tycho - HYG star catalog) is a combination of data from several major star catalogs:
 
     - Tycho-2, compiled by the Hipparcos mission
     - Gaia Data Release 3
