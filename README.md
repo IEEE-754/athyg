@@ -57,13 +57,11 @@ The current version of AT-HYG is version v4.0 (data/athyg_v40.csv.gz).
 
 ### Changes from version 3.3 to 4.0
 
-The biggest update is to incorporate a larger number of multiple star components.
-
-AT-HYG through v3.3 was permitted to omit non-primary members of multiple stars that were not in Tycho-2, or were present in older catalogs (such as the Gliese-Jahreiss catalog) but not able to be matched reliably to Tycho-2 or Gaia DR3 data.
-
-AT-HYG 4.0 adds an extra set of data based on SIMBAD lookups to get current data from Gaia DR3 for stars that were not matched previously.
+The biggest update is to incorporate a larger number of multiple star components. AT-HYG through v3.3 was permitted to omit non-primary members of multiple stars that were not in Tycho-2, or were present in older catalogs (such as the Gliese-Jahreiss catalog) but not able to be matched reliably to Tycho-2 or Gaia DR3 data. AT-HYG 4.0 adds an extra set of data refinement based on SIMBAD lookups -- it uses SIMBAD to get current data from Gaia DR3 for stars that were not matched previously. 
 
 AT-HYG 4.0 also incorporates the last few updates to HYG, which are primarily proper name updates from recent IAU approvals, and secondarily minor data errors that have been corrected in newer versions.
+
+Finally, AT-HYG 4.0 renames the columns `pm_ra` and `pm_dec` to `pmra` and `pmdec` for consistency with HYG 3.x and 4.x. This was an oversight in older versions of AT-HYG.
 
 ### Comparison to HYG
 
