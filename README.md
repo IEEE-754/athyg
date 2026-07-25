@@ -11,7 +11,7 @@ This data set (the Augmented Tycho - HYG star catalog) is a combination of data 
     - The Gliese-Jahreiss Catalog
     - Star names from the IAU's official list of names.
 
-It contains over 2.5 million stars, the large majority having accurate distance and belocity measurements from the Gaia mission, as well as historical information from the HYG catalog.
+It contains over 2.5 million stars, the large majority having accurate distance and velocity measurements from the Gaia mission, as well as historical information from the HYG catalog.
 
 This repository was, until recently, hosted on Github. The version hosted here contains the most recent version of each relevant file from the Github original. Since there have historically been some _very_ large files hosted there, but most represented early or obsolete versions of the database, this repository represents a "clean start" with only 1 major (and very carefully updated only when needed) set of data files. The version hosted on Github contains the detailed history, but is no longer being maintained.
 
@@ -57,7 +57,7 @@ The current version of AT-HYG is version v4.0 (data/athyg_v40.csv.gz).
 
 ### Changes from version 3.3 to 4.0
 
-The biggest update is to incorporate a larger number of multiple star components. AT-HYG through v3.3 was permitted to omit non-primary members of multiple stars that were not in Tycho-2, or were present in older catalogs (such as the Gliese-Jahreiss catalog) but not able to be matched reliably to Tycho-2 or Gaia DR3 data. AT-HYG 4.0 adds an extra set of data refinement based on SIMBAD lookups -- it uses SIMBAD to get current data from Gaia DR3 for stars that were not matched previously. 
+The biggest update is to incorporate a larger number of multiple star components. AT-HYG through v3.3 was permitted to omit non-primary members of multiple stars that were not in Tycho-2, or were present in older catalogs (such as the Gliese-Jahreiss catalog) but not able to be matched reliably to Tycho-2 or Gaia DR3 data. AT-HYG 4.0 adds an extra set of data refinements based on SIMBAD lookups -- it uses SIMBAD to get current data from Gaia DR3 for stars that were not matched previously. The result is a substantial number of stars excluded from AT-HYG 3.x are present in AT-HYG 4.0.
 
 AT-HYG 4.0 also incorporates the last few updates to HYG, which are primarily proper name updates from recent IAU approvals, and secondarily minor data errors that have been corrected in newer versions.
 
@@ -67,7 +67,7 @@ Finally, AT-HYG 4.0 renames the columns `pm_ra` and `pm_dec` to `pmra` and `pmde
 
 The HYG catalog lists proper motions and radial velocities in the same units as AT-HYG (milliarcsec/year and km/sec respectively), but has the Cartesian velocities vx, vy, and vz in parsecs per year. AT-HYG uses kilometers per second, in part to reduce the space needed for figures in CSV format (the figures in pc/year have 5 or 6 leading zeroes) and in part to make direct comparisons to the radial velocity simple. The conversion factor for converting km/sec to pc/year is 1 km/sec = 1.02269 E-6 pc/year.
 
-Apart from the difference in units for vx, vy, and vz, and a few slightly different field names, AT-HYG 3.3 is almost a drop-in replacement for HYG 3.x or HYG 4.x for many applications -- in particular, for any application that needs only the stars' catalog IDs, historical IDs (like Henry Draper or traditional names), magnitudes, positions, and velocities. The fields missing from AT-HYG that are present in HYG are:
+Apart from the difference in units for vx, vy, and vz, and a few slightly different field names, AT-HYG 4.0 is almost a drop-in replacement for HYG 3.x or HYG 4.x for many applications -- in particular, for any application that needs only the stars' catalog IDs, historical IDs (like Henry Draper or traditional names), magnitudes, positions, and velocities. The fields missing from AT-HYG that are present in HYG are:
 
 * Variable star IDs and approximate magnitude ranges
 * Explicit identification of components in multiple stars (in terms of a "base ID" representing the primary and a component ID)
