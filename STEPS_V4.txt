@@ -159,22 +159,22 @@ Steps:
     - HYG already includes constellation assignments that were created the same way as the ones in AT,
       so no updates to constellation assignments are required.
 
-    2558661 stars total.
-    1439 new AT-HYG rows (did not match an existing AT entry)
+    2558654 stars total.
+    1432 new AT-HYG rows (did not match an existing AT entry)
     117951 AT-HYG rows were updated in place.
     2528901 stars have a Gaia distance.
     2332476 stars have a Gaia radial velocity.
-    2233 Gliese-Jahreiss stars have a Gaia distance.
+    2238 Gliese-Jahreiss stars have a Gaia distance.
 
 6. Update AT-HYG rows with only Gliese/Jahreiss data with supplemental SIMBAD data.
     This is similar to Step 5 in the AT build. All Gliese/Jahreiss IDs from HYG are included.
     It dramatically improves the Gaia data coverage of these stars, increasing it from ~60% to ~90%.
 
-    1652 stars updated.
+    1646 stars updated.
 
-    2558661 stars total.
-    2530100 have a Gaia distance.
-    2332579 have a Gaia radial velocity.
+    2558654 stars total.
+    2530094 have a Gaia distance.
+    2332578 have a Gaia radial velocity.
     3432 Gliese-Jahreiss stars have a Gaia distance.
 
 7. Update AT-HYG rows with only HIPPARCOS data with supplemental SIMBAD data.
@@ -184,10 +184,10 @@ Steps:
     12132 stars read from SIMBAD update data.
     1772 stars updated with at least a Gaia distance.
 
-    2558661 stars total.
-    2530316 have a Gaia distance.
-    2332778 have a Gaia radial velocity.
-    3437 Gliese-Jahreiss stars have a Gaia distance.
+    2558654 stars total.
+    2530310 have a Gaia distance.
+    23327778 have a Gaia radial velocity.
+    3436 Gliese-Jahreiss stars have a Gaia distance.
 
 8. Identify Tycho-2 secondary stars that were unmatched, and set their distances to the distance of the primary.
     This step takes all Tycho2 stars of the form "nnn-nnnn-1" and looks for corresponding stars of the form "nnn-nnnn-2", "nnn-nnnn-3", etc. If they have not already had
@@ -197,10 +197,10 @@ Steps:
 
     1060 stars updated with at least a Gaia distance.
 
-    2558661 stars total.
-    2531325 have a Gaia distance.
-    2332778 have a Gaia radial velocity.
-    3437 Gliese-Jahreiss stars have a Gaia distance.
+    2558654 stars total.
+    2531319 have a Gaia distance.
+    2332777 have a Gaia radial velocity.
+    3436 Gliese-Jahreiss stars have a Gaia distance.
 
 9. Do a final cleanup of Gliese/Jahreiss data.
 
@@ -212,10 +212,10 @@ Steps:
 
     Using mode 2:
 
-    2558661 stars total.
-    2531388 have a Gaia distance (98.93%)
-    2332778 have a Gaia radial velocity. (91.17%)
-    3500 Gliese-Jahreiss stars have a Gaia distance. (92.08% of all GJ stars in the catalog)
+    2558654 stars total.
+    2531382 have a Gaia distance (98.93%)
+    2332777 have a Gaia radial velocity. (91.17%)
+    3499 Gliese-Jahreiss stars have a Gaia distance. (92.08% of all GJ stars in the catalog)
 
 10. Add extra names for secondary and other multiple stars.
     This only applies to Gliese-Jahreiss stars. About 40 such stars were identified and given a name based on
@@ -230,7 +230,7 @@ Steps:
     This is done via a hand-picked list of about 40 IAU-approved names for stars with only a Tycho or Gaia DR3 ID (most
     brighter ones will have already gotten one from HIPPARCOS data).
 
-    After step 11, there are 606 named stars, predominantly ones with an IAU name. A few stars known primarily
+    After step 11, there are 604 named stars, predominantly ones with an IAU name. A few stars known primarily
     by an ID in an old, in some cases nearly obsolete, catalog (e.g. "Wolf 359") have been given that catalog ID as a "name".
 
 12. Compute derived data (true space velocities, Cartesian coordinates, and absolute magnitudes) for all stars where this can be computed
