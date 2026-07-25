@@ -2,8 +2,11 @@
 
 ### Version-Specific Changes
 
-The current version is v3.3. See the main README.md file for a description of this version's changes.
+The current version is v4.0. See the main README.md file for a description of this version's changes.
 
+### Changes from version 3.2 to 3.3
+#### Incorporate new proper names from HYG
+The update for v3.3 adds 34 new proper names for stars that correspond directly to 11 new proper names in HYG v4.2, specifically to newly added (May 2024 to June, 2025) names approved by the IAU. No other data (in particular, no astrometric or other physical data) has been changed.
 
 ### Changes from version v3.1 to v3.2:
 #### Incorporate Gaia DR3 data for HIP stars that lacked it in original merge
@@ -35,7 +38,7 @@ The update for v2.6 adds 78 new proper names for stars that correspond directly 
 
 The update for v2.5 is similar to the change for the previous version (v2.4). For the Augmented Tycho (AT) source catalog, I identified stars in the original link table between Tycho-2 and Gaia DR3 data that had Gaia standard errors of measurement on either the proper motion or the radial velocity that exceeded the actual value. Since these figures can't be reliably distinguished from "unmeasurably small proper motion or radial velocity", they have all been converted into empty/NULL values for the corresponding velocity in this data set, and thus in all derivatives, such as AT-HYG.
 
-The number of proper motions that were invalidated is quite low: 166 out of 2.5M stars. This is in part because I was only concerned about total error, not per-component error (i.e., it was fine for the error in the R.A. component to exceed the actual component, so long as the total error for the measurement was still less than the total proper motion overall). Problematic radial velocities were more common: 116,978 stars total. As with other data sources, proper motions from Tycho-2 and radial velocities from one of the HYG sources could be used in place of the missing Gaia results, but these are extremely uncommon (only a tiny number of Gaia proper motions were invalidated, and relatively few HYG stars compared to AT stars had radial velocity data of any quality). 
+The number of proper motions that were invalidated is quite low: 166 out of 2.5M stars. This is in part because I was only concerned about total error, not per-component error (i.e., it was fine for the error in the R.A. component to exceed the actual component, so long as the total error for the measurement was still less than the total proper motion overall). Problematic radial velocities were more common: 116,978 stars total. As with other data sources, proper motions from Tycho-2 and radial velocities from one of the HYG sources could be used in place of the missing Gaia results, but these are extremely uncommon (only a tiny number of Gaia proper motions were invalidated, and relatively few HYG stars compared to AT stars had radial velocity data of any quality).
 
 #### Changes from version v2.3 to v2.4:
 ##### Remove problematic parallax / distance data from Tycho-2/Gaia DR3 link table
@@ -44,7 +47,7 @@ I identified 5715 stars in the original link table between Tycho-2 and Gaia DR3 
 
 #### Changes from version v2.2 to v2.3:
 ##### Additional radial velocity data for ~ 10K stars
-All versions of AT-HYG after v1.0 identified a set of about 10K Tycho-2 stars that lacked Gaia DR3 cross-references in the original query to get the references, but which do have Gaia DR2 or DR3 IDs, and hence Gaia parallax data, according to the SIMBAD service of online astronomical object data (https://simbad.cds.unistra.fr/simbad/). 
+All versions of AT-HYG after v1.0 identified a set of about 10K Tycho-2 stars that lacked Gaia DR3 cross-references in the original query to get the references, but which do have Gaia DR2 or DR3 IDs, and hence Gaia parallax data, according to the SIMBAD service of online astronomical object data (https://simbad.cds.unistra.fr/simbad/).
 
 This group of stars was identified during the AT-HYG v1.x builds as a set of stars desirable to get additional information for, using SIMBAD to get the relevant information. In particular, it consists of the relatively brighter stars in Tycho-2 (down to magnitude 10.0) where this information was missing originally.
 
@@ -76,11 +79,11 @@ When AT-HYG v2.2 was built, it used these spectral types in order of priority:
 #### Changes from v2.0 to v2.1
 ##### Color index ("ci") field
 
-Version 2.1 adds a color index ("CI") field to the database. The color index comes either from Tycho-2 data ("mag_src" field = "T") or from HYG ("mag_src" field predominantly "HIP", a few "GJ" [Gliese] values). 
+Version 2.1 adds a color index ("CI") field to the database. The color index comes either from Tycho-2 data ("mag_src" field = "T") or from HYG ("mag_src" field predominantly "HIP", a few "GJ" [Gliese] values).
 
 The main difference between the Tycho-2 data and the other sources is Tycho-2 used slightly different magnitude measurements. HIPPARCOS and the older HYG sources used the common 20th-century "B" and "V" filter types for their measurements. Tycho-2 used "BT" and "VT", which are close to, but not exactly the same as, B and V respectively. The "ci" field for the "T" magnitue source is therefore BT-VT rather than B-V.
 
-For stars with either color index (B-V or BT-VT) close to 0, the differences are minimal, but for stars where VT is significantly smaller (i.e., brighter) than BT, the Tycho-2 BT-VT is noticeably larger than B-V. It is about 0.1 units higher for Sunlike (main sequence, spectral type G) stars and 0.25-0.3 for main-sequence M stars. 
+For stars with either color index (B-V or BT-VT) close to 0, the differences are minimal, but for stars where VT is significantly smaller (i.e., brighter) than BT, the Tycho-2 BT-VT is noticeably larger than B-V. It is about 0.1 units higher for Sunlike (main sequence, spectral type G) stars and 0.25-0.3 for main-sequence M stars.
 
 ##### Additional data from SIMBAD lookups
 
@@ -88,7 +91,7 @@ In previous versions of AT-HYG, a subset of HYG stars with Gliese IDs were run t
 
 ##### An (as in, one) incorrect radial velocity from SIMBAD
 
-The star GJ 2077, in the initial release of v2.1, had an incorrect radial velocity as a result of a SIMBAD lookup returning a strange value. 
+The star GJ 2077, in the initial release of v2.1, had an incorrect radial velocity as a result of a SIMBAD lookup returning a strange value.
 
 GJ 2077 has an RV of -140.0 km/s in the Gliese catalog, but SIMBAD returned a value of z = 2.188 (~0.8 c!) because of what seems to be a case of mistaken identity: a relatively recent publication (https://www.aanda.org/articles/aa/pdf/2010/10/aa14188-10.pdf) created a catalog of QSOs and classified it as a quasar with that redshift, instead of a white dwarf star. Shortly after originally releasing v2.1, I found the discrepancy and recalculated GJ 2077's Cartesian velocities with the older Gliese RV of -140.0 km/s and reuploaded. This did not seem to merit a distinct version of the catalog, so I left it as v2.1.
 
@@ -112,7 +115,7 @@ The source field ("*_src")values are described in more detail below, under "Sour
 
 No new stars were added, but two significant changes to data were made:
 
-1. Improvements to Gaia distance data. Approximately 10K stars were identified in SIMBAD that lacked Gaia DR3 distances in AT-HYG 1.0 and were relatively bright (V < 10.0). 
+1. Improvements to Gaia distance data. Approximately 10K stars were identified in SIMBAD that lacked Gaia DR3 distances in AT-HYG 1.0 and were relatively bright (V < 10.0).
 These stars were assigned either a Gaia DR2 or DR3 parallax when found in SIMBAD, with DR3 being preferred.
 Of these, 7726 got new Gaia DR3 values and 813 got Gaia DR2 values.
 2. Constellation IDs are now available for all 2.4M+ stars. They were added by the same process that updated HYG v3.6+ to high-accuracy constellation IDs. The HYG
@@ -126,9 +129,9 @@ was used.  Gaia DR2 data was used only for stars that did not have a valid Gaia 
 
 Versions v0.x were public alpha releases. Version v0.1 was mostly to make sure data processing was working as intended. It was not publicly released.
 
-Versions v0.2 and v0.3 have the same field structure as v1.0, but significantly changed the way many of the HYG stars, especially from Gliese, were merged. 
+Versions v0.2 and v0.3 have the same field structure as v1.0, but significantly changed the way many of the HYG stars, especially from Gliese, were merged.
 
-These versions are deprecated and should be replaced with v1.x or v2.x.
+These versions are deprecated and should be replaced with v3.x or v4.x.
 
 ### Data Formats
 #### Version 1.x Data Format
@@ -159,7 +162,9 @@ Version 1.x has the following data fields:
 22. `absmag`: Corresponding absolute magnitude
 23. `mag_src`: Indicator of source for the magnitude field `mag` (see below). `absmag` depends on both apparent magnitude and distance, so may be determined by values from two sources.
 
-Since different versions of the DB may add or remove records, the `id` value is necessarily associated with a specific version. 
+Since different versions of the DB may add or remove records, the `id` value is necessarily associated with a specific version.
+
+These versions are deprecated and should be replaced with v3.x or v4.x.
 
 #### Version 2.x Data Format
 
@@ -180,7 +185,6 @@ Additionally, in versions 2.1 and up, the following added field is present:
 
 34. `ci`: the color index (BT-VT for Tycho-2 stars, B-V for others). This field is inserted after the `absmag` field, to keep magnitude-related data grouped together.
 
-
 ### Source Data And Assembly:
 
 The data sources for version 1.1 and later versions are:
@@ -190,7 +194,7 @@ The data sources for version 1.1 and later versions are:
 - A link table catalog between Tycho-2 and Henry Draper, generated from the catalog at https://cdsarc.cds.unistra.fr/viz-bin/qcat?J/A+A/386/709.
 - A link table catalog between Tycho-2 and Gaia DR3. I used the query facility at https://gaia.aip.de/query/. Details of the specific query are in the details_v1.md file.
 - A collection of relatively bright stars (V < 10.0) that were missing valid Gaia distances after the first 4 catalogs above were linked. These were queried in SIMBAD and Gaia information added for ones that had a valid Gaia parallax reference.
-- HYG v3.6.1 (for v1.1) or HYG v..7 (for v2.x), from this site. 
+- HYG v3.6.1 (for v1.1) or HYG v..7 (for v2.x), from this site.
 - A collection of data for Gliese IDs from SIMBAD (https://simbad.cds.unistra.fr/simbad/) that linked Gliese IDs to Tycho-2 and Gaia DR3 IDs when no other linking information was available. The list of Gliese IDs was taken directly from the HYG catalog and matched to other catalogs via automated queries to SIMBAD.
 
 The first five catalogs, after correcting a few cross-reference errors, consitute the Augmented Tycho or AT catalog. This catalog contains every valid (both position and magnitude are present and within reasonable bounds) Tycho-2 star from the main and first supplemental Tycho-2 catalogs, along with the cross-reference IDs to Henry Draper and Gaia and, when available, Gaia DR2 or DR3 distances.
@@ -244,13 +248,13 @@ Note that some fields have dependencies on multiple sources: for example, the Ca
 - `GJ`: Short form of `GLIESE` used in v2.0+.
 - `OTHER`: Fields are from another source. Currently applies only to the special entry for Sol. [Positions, distances, or magnitudes]
 - `NONE`: No valid source of this data [Distances, proper motions, radial velocities]
-- `N`: Short form of `NONE` used in v2.3+. 
+- `N`: Short form of `NONE` used in v2.3+.
 
 #### Data By Source Types
 
-Here are the numbers of stars for each combination of possible source types in v1.0. The values for later versions are similar (most previous `GAIA` distances became `G_R3`, and a few thousand missing / `NONE` distances became `G_R2` or `G_R3`). 
+Here are the numbers of stars for each combination of possible source types in v1.0. The values for later versions are similar (most previous `GAIA` distances became `G_R3`, and a few thousand missing / `NONE` distances became `G_R2` or `G_R3`).
 
-The most common entry in AT-HYG has a position and brightness (apparent magnitude) from Tycho-2 and a distance from Gaia. 
+The most common entry in AT-HYG has a position and brightness (apparent magnitude) from Tycho-2 and a distance from Gaia.
 All told, the very large majority of stars have a Gaia DR3 distance, including about 90% of HIPPARCOS entries (some of which are too bright to have good Gaia DR3 data at the moment):
 
 

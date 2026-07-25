@@ -1,0 +1,243 @@
+PART 1 -- Augmented Tycho (AT) version 4.0
+
+This catalog is intended to be "Tycho-2, in its entirety, augmented with as much distance and velocity information from a Gaia data release as possible."
+
+The AT build part is the simpler one of the two, since it mostly does an uncomplicated set of data matches:
+    - Tycho-2 to HD
+    - Tycho-2 to spectral type
+    - Tycho-2 to Gaia DR3.
+
+In all three cases, there is a one-to-at-most-one assignment (some Tycho-2 IDs don't match anything) of Tycho-2 IDs to other data points, so the matches are
+straightforward and only rarely problematic (usually traceable to typos or similar errors in the raw data files).
+
+For the foreseeable future, AT uses Gaia DR3, but part of the reason for spelling out this process in detail is to make it easy to switch to DR4, and then
+compare data completeness with the DR3 version(s). All "Gaia" IDs in AT 4.0 are presumed to be from DR3.
+
+The main limitation in AT is missing Tycho-2 to Gaia DR3 links and missing or incomplete Gaia DR3 data. Approximately 1.5% of Tycho-2 stars don't have an ID in the
+Gaia / Tycho-2 link query, and approximately another 1.5% have a Gaia ID but lack a usable parallax.
+
+This missing data coverage is partially addressed through a targeted collection of SIMBAD lookups
+to find valid Gaia DR3 results for stars that were missed in the Tycho 2/Gaia DR3 link query.
+
+1. Read raw Tycho data
+    Both the main Tycho-2 and the first supplemental data file are included.
+    Data includes magnitudes, positions, and proper motions (angular distance/year),
+    but no distance (parallax) or radial velocity information.
+
+    The only allowed omissions are:
+    a. Stars without a valid VT magnitude (only 20 in the entire catalog).
+    b. Stars in the Supplemental Data that have an identical Tycho-2 ID to one in the main data file.
+    c. Stars in either file that appear to be exact duplicates of each other, in which case 1 of the 2
+    will be chosen for removal. Very rare (only 1 seen so far).
+
+    Total stars: 2557222
+
+    Note that this standard data contains HIPPARCOS IDs, which will be important for cross-references later.
+
+2. Add Henry Draper IDs from Tycho/HD link data.
+    - The file used here corrects a small number of incorrect cross-references in the original data set.
+    - IDs added: 353329
+
+3. Add spectral types from Tycho/spectral type link data.
+    - Types added: 351863
+    - The similarity to the number of HD IDs added is not a coincidence; most of the available spectral types are from Henry Draper.
+
+4. Add Gaia data from Tycho/Gaia DR3 link data.
+    - Gaia IDs added: 2518329
+    - Gaia distances added: 2479110
+
+    The Gaia DR3 link query acquired all "neighbors" for each Tycho-2 ID, which are part of the official Gaia DR. This means a few stars (about 0.1%)
+    had more than one possible Gaia candidate, and so required choosing one of the possible neighbors. The "scoring" for neighbors was
+    based on completeness of Gaia data of interest (parallax, proper motions, and radial velocities) for each possible neighbor,
+    with a valid parallax being weighted more heavily than the others.
+
+5. Add supplemental data from SIMBAD lookups of Tycho-2 stars without Gaia IDs from step 4.
+
+    - This took the raw data set from the previous step and filtered out all stars that had a Gaia ID.
+    - There were 78112 stars (approximately 3% of the total) in this filtered data set (i.e., the ones not present in the link query).
+    - Each star had a SIMBAD lookup to determine values and sources for key astrometric data (distances and velocities).
+
+    - Gaia IDs added: 41710
+    - Gaia distances added or updated: 49791
+
+Note that a bit over 60% of these stars (ones not present in the main Gaia DR3-Tycho 2 "link" query)
+had a Gaia distance (either DR2 or DR3 was considered acceptable). The number of added Gaia IDs is lower because the
+"Gaia" ID in AT does not distinguish between data releases, so for any given AT, the IDs must all be from the same release.
+For AT 4.0, this release is DR3. Thus, there are about 8000 stars in AT that have a Gaia DR2 distance.
+
+6. Compute derived data (true space velocities, Cartesian coordinates, and absolute magnitudes) for all stars where this can be computed
+    - Cartesian coordinates whenever there is a distance
+    - Full 3d space velocities when there is a distance, transverse (proper) motion, and radial velocity
+    - Partial (asymptotic 3d - no radial component) space velocities when there is a distance and a transverse motion but no radial velocity
+
+7. Add constellation names
+    - One build of AT needs to do the "full" version, which precesses all the star coordinates to 1875.0 (the epoch when the official boundaries
+    were established) and then applies a slow but simple algorithm to correctly assign a constellation to each star.
+    - Having done this once, it's possible to create a reduced data set consisting only of Tycho-2 ID and previously-determined constellation, and assign constellations from that data set.
+    This is much faster than explicit calculation.
+
+8. Final cleanup: round off most floating point figures to reasonable values: enough digits to do later calculations without losing significant accuracy,
+but not so many to take up unneeded space in file.
+
+9. Write the AT CSV file.
+
+Note that at this point, AT is perfectly usable for detailed star charts to magnitude 11.5 or so, with accurate distance information for just under 99%
+of all the stars. It is already _close_ to being a useful data source for "the Millennium Star Atlas, as seen from any star in the Millennium Star Atlas."
+The main issue is there are no star identifiers other than Tycho-2, Gaia DR3, HIP, and HD, so unless you know one of these IDs for your star, it's hard to
+choose it from this data set.
+
+This is where AT-HYG comes in. It adds all the IDs from HYG (so essentially all naked-eye star identifiers and common names), as well as a few data sources where
+the data from Gaia is still incomplete.
+
+===========
+
+PART 2 -- AT-HYG (Augmented Tycho + HYG) build
+
+This is more complex, because the HYG data set is a merger of several catalogs, and there are significant differences in how
+multiple stars are handled. In particular, HIPPARCOS and to a lesser extent Henry Draper typically do not have separate entries for multiple star
+components (unless the multiples are widely separated), while Tycho and Gaia separate many multiples at sub-arcsecond levels, and Gliese/Jahreiss
+is hand-curated and likewise includes many multiples as distinct stars.
+
+Since avoiding duplicate stars (ones that represent the same star but from different catalogs and which *should* be a single entry)
+is important, resolving multiples is probably the most challenging aspect of the build.
+
+In AT-HYG 1.x - 3.x, I handled this by rejecting most multiples I couldn't merge. In AT 4.x and AT-HYG 4.x, the goal is
+to incorporate *every* valid Tycho-2 star, so more work is needed, some steps are unavoidably quite complicated, and there is quite
+a bit of custom logic to address those cases.
+
+The core astrometric data in this combined data set are stellar parallaxes/distances, stellar proper motions
+(transverse motion), and stellar radial velocities. Between HIPPARCOS, Tycho-2, and Gaia, essentially all stars in the
+AT and AT-HYG catalogs have an accurate proper motion, since this is the easiest of the three main quantities of
+interest to measure accurately. As a result, I have tracked the performance (over the course of all the steps) in terms
+of Gaia DR3 distance and radial velocity coverage.
+
+Final coverage is just under 99% of all stars having a Gaia distance and just under 91% with a radial velocity
+(and hence, in general, an accurately known 3D space velocity).
+A small fraction of the missing distances (~250 or ~0.5% of the missing data) is bright stars too bright for Gaia to observe.
+These almost all have a HIPPARCOS distance, of which about half are sufficiently close (<~ 25 pc) to be of reasonable accuracy.
+
+Steps:
+
+1. Import AT and convert to AT-HYG format.
+    2557222 rows imported.
+
+    Note that if you save the file at this stage, it is usable by any application that reads AT-HYG data files. Its main
+    limitation is star IDs that are limited to HIP numbers, HD numbers, Tycho-2 IDs, and Gaia DR3 numbers.
+
+2 - 4. Update with HYG data.
+
+    This is the most complex single process, broken down into multiple logical steps in the application.
+
+    A capsule summary of the logic, applied to all rows from step 1, before proceeding
+    to the next step.
+
+    2: Look for a HIPPARCOS ID match in each row. If found, import HYG data for that HIPPARCOS ID.
+        - This includes a "qualification" step, which identifies the best choice to use when
+          there are multiple possible Tycho-2 IDs for a single HIPPARCOS ID.
+            - If there is only one matching Tycho-2 star, use it
+            - Otherwise, if there is only one matching star that is a primary star (Tycho ID ends in "-1"), use it
+            - Otherwise, if there is only one matching star that also has a Henry Draper ID, use it
+            - Otherwise, use the brightest remaining star in the group.
+          This set of qualifications proved reliable in assigning the HIPPARCOS ID to a logical primary star among the possible matches.
+
+        - Standard imports from HYG include proper name, YBSC (HR) number, GJ (Gliese/Jahreiss) ID, Bayer and Flamsteed designations,
+          spectral type (if not already known), constellation (if not already set) and any astrometric data (distance and velocities) not already present from Gaia.
+        - In a few special cases, this step updates the Tycho position (right ascension and declination).
+          specifically, when the Tycho "quality" is "X", since this denotes a single measurement not reduced to the standard epoch.
+
+    3: Look for a Henry Draper ID match in each row. If found, and there is no prior HIPPARCOS match, import HYG data for that Henry Draper ID.
+        - With HIPPARCOS IDs already matched, there is generally only one remaining Tycho-2 ID that is plausible for a match by Henry Draper ID,
+          so no special qualification step is required.
+        - Standard imports from HYG are the same as for matches by HIPPARCOS ID.
+
+    4: Look for a Tycho-2 match in a hand-picked list of approximately 150 stars with GJ IDs that are not reliably identified by the above process
+        - This list was collected over the development of AT-HYG v4. It is predominantly stars in HYG that (a) have a Gliese-Jahreiss ID
+          and (b) are too faint to be in either HIPPARCOS or Henry Draper, but bright enough to be in Tycho-2 (roughly V = 9 to 12).
+
+5:  Add all unmerged rows in HYG as new rows, rather than merging them into an existing rows.
+    - This step primarily adds stars with only a GJ ID in HYG that are too faint (v > ~12) to be found in Tycho-2.
+    - HYG already includes constellation assignments that were created the same way as the ones in AT,
+      so no updates to constellation assignments are required.
+
+    2558661 stars total.
+    1439 new AT-HYG rows (did not match an existing AT entry)
+    117951 AT-HYG rows were updated in place.
+    2528901 stars have a Gaia distance.
+    2332476 stars have a Gaia radial velocity.
+    2233 Gliese-Jahreiss stars have a Gaia distance.
+
+6. Update AT-HYG rows with only Gliese/Jahreiss data with supplemental SIMBAD data.
+    This is similar to Step 5 in the AT build. All Gliese/Jahreiss IDs from HYG are included.
+    It dramatically improves the Gaia data coverage of these stars, increasing it from ~60% to ~90%.
+
+    1652 stars updated.
+
+    2558661 stars total.
+    2530100 have a Gaia distance.
+    2332579 have a Gaia radial velocity.
+    3432 Gliese-Jahreiss stars have a Gaia distance.
+
+7. Update AT-HYG rows with only HIPPARCOS data with supplemental SIMBAD data.
+    This is similar to Step 5 in the AT build and Step 3 in the AT-HYG build, but applies specifically to
+    stars with a HIPPARCOS ID. It ensures that stars in HYG with predominantly HIPPARCOS data get Gaia data as well.
+
+    12132 stars read from SIMBAD update data.
+    1772 stars updated with at least a Gaia distance.
+
+    2558661 stars total.
+    2530316 have a Gaia distance.
+    2332778 have a Gaia radial velocity.
+    3437 Gliese-Jahreiss stars have a Gaia distance.
+
+8. Identify Tycho-2 secondary stars that were unmatched, and set their distances to the distance of the primary.
+    This step takes all Tycho2 stars of the form "nnn-nnnn-1" and looks for corresponding stars of the form "nnn-nnnn-2", "nnn-nnnn-3", etc. If they have not already had
+    a distance set from a previous step, the distance for the non-primary star is set to that of the primary star.
+
+    This can set the distance to a Gaia value, but if so, does not set the Gaia ID, since the primary's star's Gaia ID differs from the secondary in essentially all cases.
+
+    1060 stars updated with at least a Gaia distance.
+
+    2558661 stars total.
+    2531325 have a Gaia distance.
+    2332778 have a Gaia radial velocity.
+    3437 Gliese-Jahreiss stars have a Gaia distance.
+
+9. Do a final cleanup of Gliese/Jahreiss data.
+
+    This does one of three things to GJ stars that (a) are non-primaries ("B", "C", etc.) and (b) do not have a modern distance (either HIPPARCOS or Gaia).
+        1. Keep as is.
+        2. Force non-primaries with old/inaccurate distances to have the distance assigned to the primary
+            This can set the distance to a Gaia value, but if so, does not set the Gaia ID, since the primary's star's Gaia ID differs from the secondary in essentially all cases.
+        3. Delete all non-primaries with old/inaccurate distances.
+
+    Using mode 2:
+
+    2558661 stars total.
+    2531388 have a Gaia distance (98.93%)
+    2332778 have a Gaia radial velocity. (91.17%)
+    3500 Gliese-Jahreiss stars have a Gaia distance. (92.08% of all GJ stars in the catalog)
+
+10. Add extra names for secondary and other multiple stars.
+    This only applies to Gliese-Jahreiss stars. About 40 such stars were identified and given a name based on
+    the primary's name.
+
+    This step should be used with some caution, since IAU rules generally give separate names to primary vs. secondary
+    stars. The main reason for doing it this way is to avoid large discrepancies in lists that use only 1 name or catalog ID
+    for the star(s) in question. E.g. a list of star information for "Keid" + "Keid B" is easier to follow than "Keid" + "GJ 166 B". This step can
+    be disabled without significant concern if needed.
+
+11. Add some additional proper names to Tycho-2 stars that don't have one already.
+    This is done via a hand-picked list of about 40 IAU-approved names for stars with only a Tycho or Gaia DR3 ID (most
+    brighter ones will have already gotten one from HIPPARCOS data).
+
+    After step 11, there are 606 named stars, predominantly ones with an IAU name. A few stars known primarily
+    by an ID in an old, in some cases nearly obsolete, catalog (e.g. "Wolf 359") have been given that catalog ID as a "name".
+
+12. Compute derived data (true space velocities, Cartesian coordinates, and absolute magnitudes) for all stars where this can be computed
+    - Same as in AT build step 6.
+
+13. Final cleanup: round off most floating point figures to reasonable values: enough digits to do later calculations, but not so many to take up unneeded space in file.
+    - Same as in AT build step 7, but with slightly different decimal point precision levels, since this catalog will be used as a final
+    catalog, and we don't have to worry as much about cumulative error.
+
+14. Write the AT-HYG CSV file.

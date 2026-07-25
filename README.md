@@ -23,11 +23,11 @@ HIPPARCOS (and thus HYG) is getting a little dated, while Gaia (its ultimate rep
 2. Use a well-defined modern star catalog as a primary basis for IDs, rather than the somewhat _ad hoc_ system in HYG.
 3. Create a larger database than HYG that is suitable for today's faster systems, but still small enough to be manageable in many applications.
 
-I chose the Tycho-2 catalog for this purpose. The Tycho-2 catalog's size (~2.5M records) and coverage (essentially complete to V = 11, mostly complete to V = 11.5) makes it suitable for many current applications. It's large enough to be comprehensive for all but the deepest charts, but small enough to be manageable in fairly simple applications. 
+I chose the Tycho-2 catalog for this purpose. The Tycho-2 catalog's size (~2.5M records) and coverage (essentially complete to V = 11, mostly complete to V = 11.5) makes it suitable for many current applications. It's large enough to be comprehensive for all but the deepest charts, but small enough to be manageable in fairly simple applications.
 
 Tycho-2 (released in 2000) is only slightly younger than HIPPARCOS, so the idea was to combine it with the newer Gaia DR3 results (2020-2022) whenever feasible. This gives high-quality distance information for over 2M stars instead of the lower-precision results from HIPPARCOS for 0.1M. Adding Gaia results to Tycho-2 gives an "Augmented" Tycho-2 dataset (AT), which is the basis for most stars in the new catalog.
 
-By merging AT with HYG, the "classical" IDs and names for a large number of Tycho / Gaia stars are also available. The result is AT-HYG. 
+By merging AT with HYG, the "classical" IDs and names for a large number of Tycho / Gaia stars are also available. The result is AT-HYG.
 
 ## License
 
@@ -41,27 +41,29 @@ This license applies to versions v3.0 and later. Older versions (prior to v3.0) 
 
 ## Download Format
 
-### Full Catalog (version 3.3 - data/athyg_v33-*.csv)
+### Full Catalog (version 4.0 - data/athyg_v40.csv)
 
-The full catalog has been split into 2 components, which should be downloaded, uncompressed, and concatenated, e.g. (Linux command for version 3.3):
+Uncompress the .gz file, then the full CSV can then be imported into the database tool of your choosing.
 
-`cat athyg_v33-1.csv athyg_v33-2.csv > athyg_v33.csv`
-
-The full CSV can then be imported into the database tool of your choosing.
-
-### Subset files (version 3.3 - data/subsets)
+### Subset files (version 4.0 - data/subsets)
 
 Several smaller subset files are available if the full catalog is still too large. One of these, the "HYGLike" subset, is designed to have a similar schema to the HYG Database and be a drop-in replacement for it in many applications. The other subset files are simple extracts from the main AT-HYG that have a lower (brighter) magnitude cutoff for most stars.
 
 See data/subsets/README.md for more details about these files.
 
-## Current Version: 
+## Current Version:
 
-The current version of AT-HYG is version v3.3 (data/athyg_v33-*.csv.gz). 
+The current version of AT-HYG is version v4.0 (data/athyg_v40.csv.gz).
 
-### Changes from version 3.2 to 3.3
+### Changes from version 3.3 to 4.0
 
-The update for v3.3 adds 34 new proper names for stars that correspond directly to 11 new proper names in HYG v4.2, specifically to newly added (May 2024 to June, 2025) names approved by the IAU. No other data (in particular, no astrometric or other physical data) has been changed.
+The biggest update is to incorporate a larger number of multiple star components.
+
+AT-HYG through v3.3 was permitted to omit non-primary members of multiple stars that were not in Tycho-2, or were present in older catalogs (such as the Gliese-Jahreiss catalog) but not able to be matched reliably to Tycho-2 or Gaia DR3 data.
+
+AT-HYG 4.0 adds an extra set of data based on SIMBAD lookups to get current data from Gaia DR3 for stars that were not matched previously.
+
+AT-HYG 4.0 also incorporates the last few updates to HYG, which are primarily proper name updates from recent IAU approvals, and secondarily minor data errors that have been corrected in newer versions.
 
 ### Comparison to HYG
 
