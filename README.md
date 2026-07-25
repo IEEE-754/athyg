@@ -11,7 +11,7 @@ This data set (the Augmented Tycho - HYG star catalog) is a combination of data 
     - The Gliese-Jahreiss Catalog
     - Star names from the IAU's official list of names.
 
-It contains over 2.5 million stars, the large majority having accurate distance and velocity measurements from the Gaia mission, as well as historical information from the HYG catalog.
+It contains over 2.5 million stars, the large majority having accurate distance and velocity measurements from the Gaia mission, as well as historical information from the HYG catalog. Nearly 99% of stars in AT-HYG have distance data from Gaia DR3 and 92% have full 3D velocity information from Gaia DR3.
 
 This repository was, until recently, hosted on Github. The version hosted here contains the most recent version of each relevant file from the Github original. Since there have historically been some _very_ large files hosted there, but most represented early or obsolete versions of the database, this repository represents a "clean start" with only 1 major (and very carefully updated only when needed) set of data files. The version hosted on Github contains the detailed history, but is no longer being maintained.
 
@@ -30,7 +30,6 @@ Tycho-2 (released in 2000) is only slightly younger than HIPPARCOS, so the idea 
 By merging AT with HYG, the "classical" IDs and names for a large number of Tycho / Gaia stars are also available. The result is AT-HYG.
 
 ## License
-
 
 This work is licensed under a
 [Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
