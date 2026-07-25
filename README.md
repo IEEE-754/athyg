@@ -40,7 +40,7 @@ This license applies to versions v3.0 and later. Older versions (prior to v3.0) 
 
 ## Download Format
 
-### Full Catalog (version 4.0 - data/athyg_v40.csv)
+### Full Catalog (version 4.0 - data/athyg_40.csv)
 
 Uncompress the .gz file, then the full CSV can then be imported into the database tool of your choosing.
 
